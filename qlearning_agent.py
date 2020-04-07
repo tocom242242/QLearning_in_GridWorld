@@ -1,11 +1,19 @@
 import copy
 import numpy as np
 
+
 class QLearningAgent:
     """
-        Q学習 
+        Q学習 エージェント
     """
-    def __init__(self, alpha=.2, epsilon=.1, gamma=.99, actions=None, observation=None):
+
+    def __init__(
+            self,
+            alpha=.2,
+            epsilon=.1,
+            gamma=.99,
+            actions=None,
+            observation=None):
         self.alpha = alpha
         self.gamma = gamma
         self.epsilon = epsilon
@@ -27,7 +35,7 @@ class QLearningAgent:
 
     def init_state(self):
         """
-            状態の初期化 
+            状態の初期化
         """
         self.previous_state = copy.deepcopy(self.ini_state)
         self.state = copy.deepcopy(self.ini_state)
@@ -45,10 +53,10 @@ class QLearningAgent:
 
     def observe(self, next_state, reward=None):
         """
-            次の状態と報酬の観測 
+            次の状態と報酬の観測
         """
         next_state = str(next_state)
-        if next_state not in self.q_values: # 始めて訪れる状態であれば
+        if next_state not in self.q_values:  # 始めて訪れる状態であれば
             self.q_values[next_state] = np.repeat(0.0, len(self.actions))
 
         self.previous_state = copy.deepcopy(self.state)
@@ -60,9 +68,10 @@ class QLearningAgent:
 
     def learn(self, reward):
         """
-            Q値の更新 
+            Q値の更新
         """
-        q = self.q_values[self.previous_state][self.previous_action] # Q(s, a)
-        max_q = max(self.q_values[self.state]) # max Q(s')
+        q = self.q_values[self.previous_state][self.previous_action]  # Q(s, a)
+        max_q = max(self.q_values[self.state])  # max Q(s')
         # Q(s, a) = Q(s, a) + alpha*(r+gamma*maxQ(s')-Q(s, a))
-        self.q_values[self.previous_state][self.previous_action] = q + (self.alpha * (reward + (self.gamma*max_q) - q))
+        self.q_values[self.previous_state][self.previous_action] = q + \
+            (self.alpha * (reward + (self.gamma * max_q) - q))

@@ -1,33 +1,30 @@
 import copy
 
+
 class GridWorld:
 
     def __init__(self):
 
         self.filed_type = {
-                "N": 0,  # 通常
-                "G": 1,  # ゴール
-                "W": 2,  # 壁
-                "T": 3,  # トラップ
-                }
-
+            "N": 0,  # 通常
+            "G": 1,  # ゴール
+            "W": 2,  # 壁
+            "T": 3,  # トラップ
+        }
         self.actions = {
-            "UP": 0, 
-            "DOWN": 1, 
-            "LEFT": 2, 
+            "UP": 0,
+            "DOWN": 1,
+            "LEFT": 2,
             "RIGHT": 3
-            }
-
+        }
         self.map = [[3, 2, 0, 1],
                     [0, 0, 0, 2],
                     [0, 0, 2, 0],
                     [2, 0, 2, 0],
                     [0, 0, 0, 0]]
 
-
         self.start_pos = 0, 4   # エージェントのスタート地点(x, y)
         self.agent_pos = copy.deepcopy(self.start_pos)  # エージェントがいる地点
-
 
     def step(self, action):
         """
@@ -49,7 +46,7 @@ class GridWorld:
         elif action == self.actions["RIGHT"]:
             to_x += 1
 
-        is_goal = self._is_end_episode(to_x, to_y) # エピソードの終了の確認
+        is_goal = self._is_end_episode(to_x, to_y)  # エピソードの終了の確認
         reward = self._compute_reward(to_x, to_y)
         self.agent_pos = to_x, to_y
         return self.agent_pos, reward, is_goal
@@ -75,7 +72,7 @@ class GridWorld:
             return False
 
     def _is_possible_action(self, x, y, action):
-        """ 
+        """
             実行可能な行動かどうかの判定
         """
         to_x = x
